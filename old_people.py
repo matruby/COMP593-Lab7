@@ -70,9 +70,6 @@ def save_name_and_age_to_csv(name_and_age_list, csv_path):
         name_and_age_list (list): (name, age) of people
         csv_path (str): Path of CSV file
     """
-    # Get the path of the current directory 
-    current_dir = get_script_dir()
-
     # Create the dataframe and pass in name and age data
     old_people_df = pd.DataFrame(name_and_age_list, columns=['name', 'age'])
 
