@@ -57,7 +57,7 @@ def populate_people_table():
     """Populates the people table with 200 fake people"""
     fake = Faker("en_CA")
     # Generate 200 fake data names  
-    name_list = [fake.name() for _ in range(200)]
+    name_list = [f"{fake.first_name()} {fake.last_name()}" for _ in range(200)]
 
     # Generate 200 fake data emails based on the fake names 
     email_list = []
@@ -100,7 +100,6 @@ def populate_people_table():
     person_db = sqlite3.connect(db_path)
     db_cursor = person_db.cursor()
 
-
     for _ in range(200):
         # Put the person information into a tuple to be inserted into the database
         new_person = (
@@ -115,7 +114,7 @@ def populate_people_table():
             datetime.now()
         )
         # Execute the query 
-        person_db.execute(add_person_query, new_person)
+        db_cursor.execute(add_person_query, new_person)
     
     # Save the changes to the database and terminate the connection
     person_db.commit()

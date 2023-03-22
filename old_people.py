@@ -6,8 +6,10 @@ Description:
 Usage:
  python old_people.py
 """
-import os
 import inspect 
+import os
+import pandas as pd 
+import sqlite3
 
 def main():
     global db_path
@@ -30,8 +32,22 @@ def get_old_people():
     Returns:
         list: (name, age) of old people 
     """
-    # TODO: Create function body
-    return []
+    # Connect to the database and initialize the cursor 
+    people_db = sqlite3.connect(db_path)
+    db_cursor = people_db.cursor()
+
+    # Query for people who are at least 50 years old
+    fifty_or_older = "SELECT name, age FROM people WHERE age >= 50"
+
+    # Get the results of the query and store them in a variable
+    query_result = db_cursor.execute(fifty_or_older)
+    fifty_and_older = query_result.fetchall()
+
+    # Terminate the connection to the database 
+    people_db.close()
+
+    # Return the list of people who are at least 50 years old 
+    return fifty_and_older
 
 def print_name_and_age(name_and_age_list):
     """Prints name and age of all people in provided list
@@ -39,8 +55,10 @@ def print_name_and_age(name_and_age_list):
     Args:
         name_and_age_list (list): (name, age) of people
     """
-    # TODO: Create function body
-    return
+    for value in name_and_age_list:
+        print(f"{value[0]} is {value[1]} years old.")
+
+    return None 
 
 def save_name_and_age_to_csv(name_and_age_list, csv_path):
     """Saves name and age of all people in provided list
@@ -49,8 +67,16 @@ def save_name_and_age_to_csv(name_and_age_list, csv_path):
         name_and_age_list (list): (name, age) of people
         csv_path (str): Path of CSV file
     """
-    # TODO: Create function body
-    return
+    # Get the path of the current directory 
+    current_dir = get_script_dir()
+
+    # Create the dataframe and pass in name and age data
+    old_people_df = pd.DataFrame(name_and_age_list, columns=['name', 'age'])
+
+    # Save the dataframe to a csv 
+    old_people_df.to_csv(csv_path, index=False)
+
+    return None 
 
 def get_script_dir():
     """Determines the path of the directory in which this script resides
