@@ -37,7 +37,10 @@ def get_old_people():
     db_cursor = people_db.cursor()
 
     # Query for people who are at least 50 years old
-    fifty_or_older = "SELECT name, age FROM people WHERE age >= 50"
+    fifty_or_older = """
+    SELECT name, age FROM people 
+    WHERE age >= 50
+    """
 
     # Get the results of the query and store them in a variable
     query_result = db_cursor.execute(fifty_or_older)

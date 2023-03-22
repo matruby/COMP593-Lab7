@@ -64,21 +64,6 @@ def populate_people_table():
     for name in name_list:
         name = name.split()
         email_list.append(f"{name[0]}.{name[1]}@{fake.free_email_domain()}")
-
-    # Generate 200 fake data street addresses
-    address_list = [fake.street_address() for _ in range(200)]
-
-    # Generate 200 fake data city entries 
-    city_list = [fake.city() for _ in range(200)]
-
-    # Generate 200 fake data province entries 
-    province_list = [fake.administrative_unit() for _ in range(200)]
-
-    # Generate 200 fake data bios 
-    bios_list = [fake.sentence(nb_words=10, variable_nb_words=False) for _ in range(200)]
-
-    # Generate 200 fake ages between 1 and 100
-    age_list = [randint(1, 100) for _ in range(200)]
     
     # Query to add fake people to the list 
     add_person_query = """
@@ -105,11 +90,11 @@ def populate_people_table():
         new_person = (
             name_list[_],
             email_list[_],
-            address_list[_],
-            city_list[_],
-            province_list[_],
-            bios_list[_],
-            age_list[_],
+            fake.street_address(),
+            fake.city(),
+            fake.administrative_unit(),
+            fake.sentence(nb_words=10, variable_nb_words=False),
+            randint(1, 100),
             datetime.now(),
             datetime.now()
         )
